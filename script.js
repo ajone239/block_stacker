@@ -10,7 +10,7 @@ const GameState = Object.freeze({
 
 const WIDTH_IN_BLOCKS = 20
 const INIT_FRAME_RATE = 10
-const VERSION = "1.0.7"
+const VERSION = "1.0.8"
 
 let game_state = GameState.MENU;
 let grid;
@@ -42,7 +42,7 @@ function draw() {
             handleInteraction(touch.x, touch.y)
         }
         latched = 5
-    } else {
+    } else if (touches.length <= 0) {
         latched--;
     }
 
