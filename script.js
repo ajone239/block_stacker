@@ -10,6 +10,7 @@ const GameState = Object.freeze({
 
 const WIDTH_IN_BLOCKS = 20
 const INIT_FRAME_RATE = 10
+const VERSION = "1.0.4"
 
 let game_state = GameState.MENU;
 let grid;
@@ -95,6 +96,7 @@ function credit() {
     textAlign(CENTER, CENTER);
     text("Block Stacker", width / 2, 20);
 
+    text(`Version: ${VERSION}`, 1 * width / 4, 20);
     text(`Level: ${grid.rows.length}`, 3 * width / 4, 20);
 
     pop()
