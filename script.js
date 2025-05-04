@@ -9,6 +9,7 @@ const GameState = Object.freeze({
 });
 
 const WIDTH_IN_BLOCKS = 20
+const INIT_FRAME_RATE = 10
 
 
 let game_state = GameState.MENU;
@@ -27,7 +28,7 @@ function setup() {
         40
     );
 
-    frameRate(10)
+    frameRate(INIT_FRAME_RATE)
 }
 
 function draw() {
@@ -58,6 +59,8 @@ function draw() {
     grid.clear()
     grid.fill_with_rows()
     grid.show()
+
+    frameRate(INIT_FRAME_RATE + int(grid.rows.length / 5))
 }
 
 function handleInteraction(_x, _y) {
@@ -91,6 +94,9 @@ function credit() {
     fill(Theme.primary)
     textAlign(CENTER, CENTER);
     text("Block Stacker", width / 2, 20);
+
+    text(`Level: ${grid.rows.length}`, 3 * width / 4, 20);
+
     pop()
 }
 
@@ -132,8 +138,8 @@ function start_menu() {
 function summary_menu() {
     push()
 
-    const menu_height = 200
-    const menu_width = 200
+    const menu_height = 300
+    const menu_width = 300
 
     stroke(Theme.accent1)
     strokeWeight(3)
@@ -153,14 +159,15 @@ function summary_menu() {
     textAlign(CENTER, CENTER);
 
     fill(Theme.primary)
-    textSize(20)
-    text("Game Over!", width / 2, (height / 2) - 15);
+    textSize(15)
+    text("Game Over!", width / 2, (height / 2) - 25);
 
-    // TODO(austin.jones): add in score and timer
+    textSize(20)
+    text(`You made it to level ${grid.rows.length}!`, width / 2, (height / 2));
 
     fill(Theme.back_highlight)
     textSize(15)
-    text("Tap anywhere to restart...", width / 2, (height / 2) + 15);
+    text("Tap anywhere to restart...", width / 2, (height / 2) + 25);
 
     pop()
     pop()
