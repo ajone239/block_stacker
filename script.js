@@ -35,7 +35,7 @@ function draw() {
     credit()
 
     // handle touches
-    if ((touches.length == 1 || touches.length == 2) && !latched) {
+    if ((touches.length == 1) && !latched) {
         latched = true
         for (let touch of touches) {
             handleInteraction(touch.x, touch.y)
@@ -44,43 +44,40 @@ function draw() {
         latched = false
     }
 
-    for (var row of grid.rows) {
-        row.distance++
-
-        row.distance %= 1 + WIDTH_IN_BLOCKS - row.width
+    if (game_state == GameState.MENU) {
+        grid.show()
+        start_menu()
+        return;
+    } else if (game_state == GameState.OVER) {
+        grid.show()
+        summary_menu()
+        return;
     }
 
+    grid.update()
     grid.clear()
     grid.fill_with_rows()
     grid.show()
-
-    if (game_state == GameState.MENU) {
-        start_menu()
-    } else if (game_state == GameState.OVER) {
-        summary_menu()
-    }
-
 }
 
-function handleInteraction(x, y) {
-    push()
-    console.log("handle")
-    fill(255)
-    ellipse(x, y, 10, 10)
-
+function handleInteraction(_x, _y) {
     if (game_state == GameState.MENU) {
         game_state = GameState.PLAY
     } else if (game_state == GameState.PLAY) {
         game_state = GameState.OVER
     } else if (game_state == GameState.OVER) {
         game_state = GameState.MENU
+        grid.clear()
     }
+}
 
-    pop()
+function keyPressed() {
+    if (key == ' ') {
+        handleInteraction(0, 0);
+    }
 }
 
 function mousePressed() {
-    console.log("mouse")
     handleInteraction(mouseX, mouseY)
 }
 

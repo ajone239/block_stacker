@@ -5,6 +5,7 @@ class Row {
         this.level = level
     }
 }
+
 class Grid {
     constructor(size, width, height, x, y) {
         this.x = x
@@ -14,6 +15,7 @@ class Grid {
         this.square_size = size
         this.width_in_squares = int(width / size)
         this.height_in_squares = int(height / size)
+        this.lor = false // left or right
 
         // make the grid
         this.grid = new Array(this.width_in_squares)
@@ -21,23 +23,11 @@ class Grid {
             this.grid[i] = new Array(this.height_in_squares).fill(0)
         }
 
+        let two_thirds_width = int(this.width_in_squares * (2 / 3))
+
         // make the rows
-        let first_row = new Row(
-            0,
-            int(this.width_in_squares * (2 / 3)),
-            1
-        )
-        this.rows = new Array(0)
-        this.rows.push(first_row)
-        this.rows.push(new Row(0, 9, 1))
-        this.rows.push(new Row(0, 8, 1))
-        this.rows.push(new Row(0, 7, 1))
-        this.rows.push(new Row(0, 6, 1))
-        this.rows.push(new Row(0, 5, 1))
-        this.rows.push(new Row(0, 4, 1))
-        this.rows.push(new Row(0, 3, 1))
-        this.rows.push(new Row(0, 2, 1))
-        this.rows.push(new Row(0, 1, 1))
+        let first_row = new Row(0, two_thirds_width, 1)
+        this.rows = new Array(1).fill(first_row)
     }
 
     mod_width() {
@@ -54,6 +44,21 @@ class Grid {
                 this.grid[i][j] = 0;
             }
         }
+    }
+
+    update() {
+        const last_row = this.rows.at(-1)
+
+        const turn =
+            (this.lor && last_row.distance == 0) ||
+            (!this.lor && (last_row.distance + last_row.width) == this.width_in_squares)
+
+        if (turn) {
+            this.lor = !this.lor;
+            return;
+        }
+
+        last_row.distance += this.lor ? -1 : 1;
     }
 
     fill_with_rows() {
