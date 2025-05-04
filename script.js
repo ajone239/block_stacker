@@ -11,7 +11,6 @@ const GameState = Object.freeze({
 const WIDTH_IN_BLOCKS = 20
 const INIT_FRAME_RATE = 10
 
-
 let game_state = GameState.MENU;
 let grid;
 let latched = false;
