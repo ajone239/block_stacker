@@ -4,6 +4,10 @@ class Row {
         this.width = width
         this.level = level
     }
+
+    end() {
+        return this.distance + this.width
+    }
 }
 
 class Grid {
@@ -26,7 +30,7 @@ class Grid {
         let two_thirds_width = int(this.width_in_squares * (2 / 3))
 
         // make the rows
-        let first_row = new Row(0, two_thirds_width, 1)
+        let first_row = new Row(2, two_thirds_width, 1)
         this.rows = new Array(1).fill(first_row)
     }
 
@@ -46,6 +50,14 @@ class Grid {
         }
     }
 
+    reset() {
+        let two_thirds_width = int(this.width_in_squares * (2 / 3))
+
+        // make the rows
+        let first_row = new Row(2, two_thirds_width, 1)
+        this.rows = new Array(1).fill(first_row)
+    }
+
     update() {
         const last_row = this.rows.at(-1)
 
@@ -59,6 +71,41 @@ class Grid {
         }
 
         last_row.distance += this.lor ? -1 : 1;
+    }
+
+    freeze_row() {
+        const penultimate_row = this.rows.at(-2)
+        const last_row = this.rows.at(-1)
+
+        let next_row_distance = last_row.distance
+        let next_row_width = last_row.width
+
+        if (penultimate_row) {
+            // last_row comes up short
+            if (penultimate_row.distance >= (last_row.end())) {
+                return false;
+            }
+
+            // last_row goes long
+            if (last_row.distance >= (penultimate_row.end())) {
+                return false;
+            }
+
+            next_row_distance = Math.max(last_row.distance, penultimate_row.distance)
+            next_row_width =
+                Math.min(
+                    penultimate_row.end(),
+                    last_row.end()
+                ) - next_row_distance
+        }
+
+        last_row.width = next_row_width
+        last_row.distance = next_row_distance
+        var next_row = new Row(next_row_distance, next_row_width, 1)
+
+        this.rows.push(next_row)
+
+        return true;
     }
 
     fill_with_rows() {

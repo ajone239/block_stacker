@@ -64,10 +64,15 @@ function handleInteraction(_x, _y) {
     if (game_state == GameState.MENU) {
         game_state = GameState.PLAY
     } else if (game_state == GameState.PLAY) {
-        game_state = GameState.OVER
+        let success = grid.freeze_row()
+
+        if (!success) {
+            game_state = GameState.OVER
+        }
     } else if (game_state == GameState.OVER) {
         game_state = GameState.MENU
         grid.clear()
+        grid.reset()
     }
 }
 
