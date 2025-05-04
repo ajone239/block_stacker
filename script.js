@@ -10,7 +10,7 @@ const GameState = Object.freeze({
 
 const WIDTH_IN_BLOCKS = 20
 const INIT_FRAME_RATE = 10
-const VERSION = "1.0.4"
+const VERSION = "1.0.5"
 
 let game_state = GameState.MENU;
 let grid;
@@ -87,6 +87,10 @@ function keyPressed() {
 }
 
 function mousePressed() {
+    if (latched > 0) {
+        return;
+    }
+
     handleInteraction(mouseX, mouseY)
 }
 
