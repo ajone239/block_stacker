@@ -13,7 +13,7 @@ const INIT_FRAME_RATE = 10
 
 let game_state = GameState.MENU;
 let grid;
-let latched = false;
+let latched = 0;
 
 function setup() {
     createCanvas(document.body.clientWidth, document.body.clientHeight);
@@ -34,14 +34,15 @@ function draw() {
     background(Theme.background);
     credit()
 
+
     // handle touches
-    if ((touches.length == 1) && !latched) {
-        latched = true
+    if (touches.length == 1 && latched <= 0) {
+        latched = 5
         for (let touch of touches) {
             handleInteraction(touch.x, touch.y)
         }
-    } else if (touches.length == 0) {
-        latched = false
+    } else {
+        latched--;
     }
 
     if (game_state == GameState.MENU) {
