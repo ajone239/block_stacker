@@ -10,7 +10,7 @@ const GameState = Object.freeze({
 
 const WIDTH_IN_BLOCKS = 20
 const INIT_FRAME_RATE = 10
-const VERSION = "1.0.8"
+const VERSION = "1.0.9"
 
 let game_state = GameState.MENU;
 let grid;
@@ -42,7 +42,7 @@ function draw() {
             handleInteraction(touch.x, touch.y)
         }
         latched = 5
-    } else if (touches.length <= 0) {
+    } else if (touches.length <= 0 && latched > 0) {
         latched--;
     }
 
@@ -68,10 +68,6 @@ function handleInteraction(_x, _y) {
     if (game_state == GameState.MENU) {
         game_state = GameState.PLAY
     } else if (game_state == GameState.PLAY) {
-        if (latched > 0) {
-            return;
-        }
-
         let success = grid.freeze_row()
 
         if (!success) {
@@ -88,11 +84,6 @@ function keyPressed() {
     if (key == ' ') {
         handleInteraction(0, 0);
     }
-}
-
-function mousePressed() {
-
-    handleInteraction(mouseX, mouseY)
 }
 
 function credit() {
