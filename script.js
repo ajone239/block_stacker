@@ -10,14 +10,19 @@ const GameState = Object.freeze({
 
 const WIDTH_IN_BLOCKS = 20
 const INIT_FRAME_RATE = 10
-const VERSION = "1.0.9"
+const VERSION = "1.0.10"
 
 let game_state = GameState.MENU;
 let grid;
 let latched = 0;
 
 function setup() {
-    createCanvas(document.body.clientWidth, document.body.clientHeight);
+    const canvas_width = Math.min(
+        document.body.clientWidth,
+        document.body.clientHeight * 0.85,
+    );
+
+    createCanvas(canvas_width, document.body.clientHeight);
     background(Theme.background);
 
     grid = new Grid(
