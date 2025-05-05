@@ -17,7 +17,12 @@ let grid;
 let latched = 0;
 
 function setup() {
-    createCanvas(document.body.clientWidth, document.body.clientHeight);
+    const canvas_width = Math.min(
+        document.body.clientWidth,
+        document.body.clientHeight * 0.85,
+    );
+
+    createCanvas(canvas_width, document.body.clientHeight);
     background(Theme.background);
 
     grid = new Grid(
