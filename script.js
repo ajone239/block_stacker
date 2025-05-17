@@ -40,7 +40,6 @@ function draw() {
     background(Theme.background);
     credit()
 
-
     // handle touches
     if (touches.length == 1 && latched <= 0) {
         for (let touch of touches) {
